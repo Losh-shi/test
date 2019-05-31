@@ -1,0 +1,69 @@
+
+import React, {Component} from 'react';
+import {StyleSheet, Text, View,Animated,Image,Easing} from 'react-native';
+
+
+export default class App extends Component{
+
+
+  constructor () {
+    super()
+    this.animatedValue = new Animated.Value(0)
+  }
+
+
+
+  componentDidMount () {
+    this.animate()
+  }
+  animate () {
+    this.animatedValue.setValue(0)
+    Animated.timing(
+      this.animatedValue,
+      {
+        toValue: 1,
+        duration: 2000,
+        easing: Easing.linear
+      }
+    ).start(() => this.animate())
+  }
+  render () { 
+
+    const marginLeft = this.animatedValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 300]
+    })
+    
+    const textSize = this.animatedValue.interpolate({
+      inputRange: [0, 0.5, 1],
+      outputRange: [18, 32, 18]
+    })
+    return (
+      <View style={styles.container}>
+  <Animated.View
+        style={{
+          textSize,
+          fontSize: textSize,
+          marginTop: 10,
+          color: 'green'}} 
+               source={require('./lightning.jpg')}>
+          </Animated.View>
+          
+     
+
+         
+      
+      </View>
+
+
+
+    )
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 150
+  }
+})
